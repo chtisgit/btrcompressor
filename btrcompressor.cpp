@@ -111,15 +111,13 @@ static void usage(const char *progname)
 			"\n", progname);
 }
 
-// accepts empty string, "zlib", "zstd", "lzo" and "zlib:[0-9]" and returns true
+// accepts empty string, "zlib", "zstd", "lzo" and returns true
 // on other input this method returns false
 static bool valid_algorithm(const std::string& alg)
 {
 	static const std::set<std::string> available = { "", "zlib", "zstd", "lzo" };
 
 	if(available.count(alg) == 1)
-		return true;
-	if(alg.size() == 6 && alg.substr(0,5) == "zlib:" && isdigit(alg[5]))
 		return true;
 	return false;
 }
