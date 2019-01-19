@@ -151,10 +151,12 @@ int main(int argc, char **argv)
 	}
 	if(optind >= argc){
 		error("no file or directory given", 0);
+		usage(argv[0]);
 		return 1;
 	}
 	if(cfg.threads <= 0){
 		error("invalid number of threads (%d)", cfg.threads);
+		usage(argv[0]);
 		return 1;
 	}
 	if(compression == "no" || compression == "none"){
@@ -163,6 +165,7 @@ int main(int argc, char **argv)
 	}
 	if(!valid_algorithm(compression)){
 		error("invalid compression chosen (%s)", compression.c_str());
+		usage(argv[0]);
 		return 1;
 	}
 
