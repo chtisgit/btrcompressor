@@ -76,6 +76,7 @@ static void compress_recursively(const char *path, const std::string& xattr_name
 	std::deque<fs::directory_iterator> stack;
 	stack.emplace_back(fs::Path(path));
 
+	const char *enabledisable = (compression.size() == 0) ? "disable" : "enable";
 	while(!stack.empty()){
 		auto& dir = stack.back();
 		if(dir == fs::directory_iterator()){
@@ -83,17 +84,17 @@ static void compress_recursively(const char *path, const std::string& xattr_name
 			continue;
 		}
 		auto p = (*dir).path();
-		if(p.filename() == "." || p.filename() == ".."){
+		if((p.filename().string() == "." && stack.size() != 1) || p.filename().string() == ".."){
 			++dir;
 			continue;
 		}
 
 		if(cfg.verbose)
-			printf("set compression on %s\n", p.c_str());
+			printf("%s compression on %s\n", enabledisable, p.c_str());
 
 		compress(&p, xattr_name, compression);
 		++dir;
-		if(fs::is_directory(p)){
+		if(fs::is_directory(p) && p.filename().string() != "."){
 			stack.emplace_back(p);
 		}
 	}
