@@ -1,0 +1,3 @@
+[submodule "uboostfs"]
+	path = uboostfs
+	url = https://bitbucket.org/chtisgit/uboostfs
